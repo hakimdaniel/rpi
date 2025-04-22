@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Ukhuwah Of Unity</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #e8f0e8, #d4edda);
+      font-family: 'Segoe UI', sans-serif;
+      color: #2f4f4f;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.3em;
+      color: #1a4731;
+    }
+
+    .subtitle {
+      font-size: 1.2em;
+      margin-bottom: 2em;
+      color: #155724;
+    }
+
+    .countdown {
+      font-size: 2em;
+      background-color: #fff;
+      border: 2px solid #c3e6cb;
+      padding: 20px;
+      border-radius: 15px;
+      display: inline-block;
+      color: #1c422c;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .arabic {
+      font-family: 'Arial', sans-serif;
+      font-size: 1.1em;
+      font-style: italic;
+      margin-top: 20px;
+      color: #006400;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Program Ukhuwah Of Unity</h1>
+  <div class="subtitle">Akan Bermula pada 3 Mei 2025 InsyaAllah</div>
+  <div class="countdown" id="countdown">
+    Mengira masa...
+  </div>
+  <div class="arabic">بسم الله الرحمن الرحيم</div>
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+    const startTime = new Date('2025-05-03T08:00:00');
+    const endTime = new Date('2025-05-03T17:00:00');
+
+    function updateCountdown() {
+      const now = new Date();
+
+      if (now < startTime) {
+        const diff = startTime - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        countdownEl.textContent = `Tinggal ${days} hari ${hours} jam ${minutes} minit ${seconds} saat sebelum program bermula`;
+      } else if (now >= startTime && now <= endTime) {
+        countdownEl.textContent = "Program sedang berlangsung...";
+      } else {
+        countdownEl.textContent = "Program telah tamat. Alhamdulillah!";
+      }
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+
+</body>
+</html>
