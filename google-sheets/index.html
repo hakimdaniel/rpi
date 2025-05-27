@@ -15,12 +15,13 @@
   <style>
     * { font-family: Arial, Helvetica, sans-serif;}
     body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-    table { border-collapse: collapse; margin: 0 auto; }
+    table { border-collapse: collapse; margin: 0 auto; text-align:center}
     th, td { border: 1px solid #ccc; padding: 10px 20px; font-family:'Courier New', Courier, monospace;}
-    th { background-color: #f2f2f2; }
+    th { background-color: #f2f2f2;}
     td{ font-weight:bold; }
     .btn {margin-botton:22px;padding:7px 20px;background-color:lightblue;border-radius:45px; border:solid white 1px;transition:.3s ease;text-decoration:none;}
     .btn:hover{transform:scale(1.2);}
+    u{ color:lime;text-decoration:none;}
     footer{ position: absolute; bottom: 20px;text-align: center;left: 0;right: 0;font-size: 12px;}
   </style>
 </head>
@@ -35,6 +36,17 @@
 
   function formatDate(date) {
     return date.toISOString().split('T')[0]; // format: YYYY-MM-DD
+  }
+
+  function isBeforeAsar() {
+    const now = new Date();
+    return now.getHours() < 17; // sebelum 5 petang
+  }
+
+  function isAfterAsarBeforeIsyak() {
+    const now = new Date();
+    const hours = now.getHours();
+    return hours >= 17 && hours < 20; // selepas 5 petang tapi sebelum 8 malam (anggaran Isyak)
   }
 
   fetch(atob(csvUrl))
@@ -65,13 +77,23 @@
       let html = '';
 
       if (todayRow) {
+        let alMathurat = todayRow[2];
+        let alMulk = todayRow[1];
+
+        // Tambah underline berdasarkan waktu
+        if (isBeforeAsar()) {
+          alMathurat = `<u>${alMathurat}</u>`;
+        } else if (isAfterAsarBeforeIsyak()) {
+          alMulk = `<u>${alMulk}</u>`;
+        }
+
         html += `
           <table>
             <thead>
               <tr><th>Tarikh</th><th>Al-Mathurat</th><th>Al-Mulk</th></tr>
             </thead>
             <tbody>
-              <tr><td>${todayRow[0]}</td><td>${todayRow[2]}</td><td>${todayRow[1]}</td></tr>
+              <tr><td>${todayRow[0]}</td><td>${alMathurat}</td><td>${alMulk}</td></tr>
             </tbody>
           </table><br>`;
       } else {
@@ -108,4 +130,3 @@
 </script>
 </body>
 </html>
-
