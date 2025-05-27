@@ -13,7 +13,7 @@
     th, td { border: 1px solid #ccc; padding: 10px 20px; font-family:'Courier New', Courier, monospace;}
     th { background-color: #f2f2f2; }
     td{ font-weight:bold; }
-    .btn {margin-botton:12px;padding:7px 20px;background-color:green;border-radius:45px; border:solid white 1px;transition:.3s ease;}
+    .btn {margin-botton:12px;padding:7px 20px;background-color:lightblue;border-radius:45px; border:solid white 1px;transition:.3s ease;text-decoration:none;}
     .btn:hover{transform:scale(1.2);}
     footer{ position: absolute; bottom: 20px;text-align: center;left: 0;right: 0;font-size: 12px;}
   </style>
@@ -26,8 +26,8 @@
         <span>Website diselenggara oleh <a href="https://wa.me/+60169749725">Daniel Hakim</a>. Apa-apa hal contact beliau.</span>
     </footer>
   <script>
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRCHNgiQ820OWKj2IU0ETuLc7rR_FRvAJh-6auCRBWXZtJjy-9LuxaPJ2RAcirXQNTzLym-E8zfHBH1/pub?gid=0&single=true&output=csv';
-    fetch(csvUrl)
+    const csvUrl = 'aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlJDSE5naVE4MjBPV0tqMklVMEVUdUxjN3JSX0ZSdkFKaC02YXVDUkJXWFp0Smp5LTlMdXhhUEoyUkFjaXJYUU5Uekx5bS1FOHpmSEJIMS9wdWI/Z2lkPTAmc2luZ2xlPXRydWUmb3V0cHV0PWNzdg==';
+    fetch(atob(csvUrl))
       .then(response => response.text())
       .then(data => {
         const lines = data.trim().split('\n');
