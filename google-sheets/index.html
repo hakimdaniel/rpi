@@ -46,7 +46,7 @@
   function isAfterAsarBeforeIsyak() {
     const now = new Date();
     const hours = now.getHours();
-    return hours >= 17 && hours < 20; // selepas 5 petang tapi sebelum 8 malam (anggaran Isyak)
+    return hours >= 17 && hours < 23; // selepas 5 petang tapi sebelum 8 malam (anggaran Isyak)
   }
 
   fetch(atob(csvUrl))
