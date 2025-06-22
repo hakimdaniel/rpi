@@ -54,7 +54,6 @@ const bulans = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","S
 const haris = ["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"]
 const form = document.getElementById("myForm")
 let tarikh = new Date()
-let tarikhBaru = `${tarikh.getDate()} ${bulans[tarikh.getMonth()]} ${tarikh.getFullYear()}`.toUpperCase()
 
 function getTemplateRpi(name,quote){
     return `
@@ -69,7 +68,7 @@ function getTemplateRpi(name,quote){
 <pre>
 *[RPI 24/25]*
 
-*${haris[tarikh.getDay()]} | ${tarikh.getDate()} ${bulans[tarikh.getMonth()]} ${tarikh.getFullYear()}*
+*${haris[tarikh.getDay()].toUpperCase()} | ${tarikh.getDate()} ${bulans[tarikh.getMonth()]} ${tarikh.getFullYear()}*
 
 ${quote}
 
