@@ -42,8 +42,12 @@
         form button{
             width:100%;
             border-radius:12px;
-            border:none;
+            border:solid black 1px;
+            transition:0.2s ease-in background;
             background:linear-gradient(to right,#C0C9EE,#FFF2E0);
+        }
+        form button:hover{
+            background:linear-gradient(to right,#FFF2E0,#C0C9EE);
         }
         hr{
             padding:12px;
@@ -70,7 +74,7 @@
     <input type="text" name="ajkName" placeholder="masukkan nama ajk..." required autofocus>
     <span style="margin: 12px 0;">Masukkan kata-kata ?</span>
     <textarea type="text" name="quoteText" placeholder="masukkan kata-kata..." required></textarea>
-    <button style="margin: 12px 0; float:right; padding: 7px 12px; cursor:pointer;" type="submit">convert</button>
+    <button style="margin: 12px 0; float:right; padding: 12px; cursor:pointer;" type="submit">convert</button>
 </form>
 
 <footer>
