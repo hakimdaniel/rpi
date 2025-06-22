@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Formatter
+    </title>
+    <style>
+        * {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        form *{
+            display: block;
+        }
+        form{
+            display: block;
+            margin: 0 auto;
+            margin-top: 70px;
+            max-width: 600px;
+            padding: 20px;
+        }
+        form input, form textarea, form select{
+            font-size: 1rem;
+            font-family: 'Trebuchet MS', sans-serif;
+            padding: 7px;
+            width: 100%;
+        }
+        form textarea{
+            resize: vertical;
+            min-height: 150px;
+        }
+    </style>
+</head>
+<body>
+<form id="myForm">
+    <h1>Text Formatter</h1>
+    <span style="margin: 12px 0;">Pilih template :</span>
+    <select name="template" required>
+        <option value="" disabled selected>Belum dipilih</option>
+        <option value="kata-hikmah-etmi">kata-kata hikmah etmi</option>
+    </select>
+    <span style="margin: 12px 0;">Masukkan nama ajk ?</span>
+    <input type="text" name="ajkName" placeholder="masukkan nama ajk..." required autofocus>
+    <span style="margin: 12px 0;">Masukkan kata-kata ?</span>
+    <textarea type="text" name="quoteText" placeholder="masukkan kata-kata..." required></textarea>
+    <button style="margin: 12px 0; float:right; padding: 5px 12px; cursor:pointer;" type="submit">convert</button>
+</form>
+<script>
+const bulans = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"]
+const haris = ["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"]
+const form = document.getElementById("myForm")
+let tarikh = new Date()
+let tarikhBaru = `${tarikh.getDate()} ${bulans[tarikh.getMonth()]} ${tarikh.getFullYear()}`.toUpperCase()
+
+function getTemplateRpi(name,quote){
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Output</title>
+</head>
+<body>
+<pre>
+[RPI 24/25]
+
+${haris[tarikh.getDay()]} | ${tarikh.getDate()} ${bulans[tarikh.getMonth()]} ${tarikh.getFullYear()}
+
+${quote}
+
+YANG MENJALANKAN TUGAS
+${name.toUpperCase()}
+EXCO TARBIAH DAN MODAL INSAN,
+KELAB RAKAN PUSAT ISLAM,
+UITM CAWANGAN PULAU PINANG
+SESI 2024/2025
+</pre>
+</body>
+</html>
+`
+}
+
+function setToArea(nama,quote,template){
+    let templateData
+    if (template === "kata-hikmah-etmi"){
+        templateData = getTemplateRpi(nama,quote)
+    }else{
+        templateData = null
+    }
+    const win = window.open('','_blank')
+    win.document.write(templateData)
+};
+
+form.addEventListener("submit",(e)=>{
+    e.preventDefault()
+    const formData = new FormData(form)
+    const template = formData.get("template")
+    const nama = formData.get("ajkName")
+    const quote = formData.get("quoteText")
+    setToArea(nama,quote,template)
+
+})
+</script>
+</body>
+</html>
