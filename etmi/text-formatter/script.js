@@ -16,7 +16,7 @@ function getTemplateRpi(name,quote){
 <pre>
 *[RPI 24/25]*
 
-*${haris[tarikh.getDay()].toUpperCase()} | ${tarikh.getDate()} ${bulans[tarikh.getMonth()].tpUpperCase()} ${tarikh.getFullYear()}*
+*${haris[tarikh.getDay()].toUpperCase()} | ${tarikh.getDate()} ${bulans[tarikh.getMonth()].toUpperCase()} ${tarikh.getFullYear()}*
 
 ${quote}
 
