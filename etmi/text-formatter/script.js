@@ -13,7 +13,7 @@ function getTemplateRpi(name,quote){
     <title>Output</title>
 </head>
 <body>
-<pre>
+<pre style="font-size:20px;">
 *[RPI 24/25]*
 
 *${haris[tarikh.getDay()].toUpperCase()} | ${tarikh.getDate()} ${bulans[tarikh.getMonth()].toUpperCase()} ${tarikh.getFullYear()}*
