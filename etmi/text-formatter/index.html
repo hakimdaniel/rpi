@@ -22,7 +22,11 @@
             margin-top: 70px;
             max-width: 600px;
             padding: 20px;
-            clearfix:right;
+        }
+        form::after{
+            content:'';
+            display:table;
+            clear:right;
         }
         form input, form textarea, form select{
             border-radius:12px;
