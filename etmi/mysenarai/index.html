@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ms-MY">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> MySenarai </title>
+  <meta name="description" content="Catat senarai untuk diri anda sendiri!">
+  <style>
+    *{
+        font-family: system-ui, Monospace;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #data {
+      max-width: 90vw;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .task-content {
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+    .done {
+      text-decoration: line-through;
+      color: gray;
+    }
+    button.delete,
+    button.delete-all,
+    button.reset-checkbox {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 3px;
+      margin-left: 5px;
+    }
+    button.reset-checkbox {
+      background-color: #2196f3;
+    }
+    button.delete:hover,
+    button.delete-all:hover {
+      background-color: #d32f2f;
+    }
+    button.reset-checkbox:hover {
+      background-color: #1976d2;
+    }
+    #actions {
+      margin-top: 10px;
+    }
+    body.dark {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+body.dark input,
+body.dark button {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+}
+body.dark .done {
+  color: #aaa;
+}
+footer span{
+    font-weight: bold;
+    display:block;
+}
+footer{
+    background-color: gray;
+    position: fixed;
+    bottom: 0;
+    right: 0; 
+    left: 0;
+    text-align: center;
+    display:block ;
+    padding: 50px;
+}
+  </style>
+</head>
+<body>
+<div id="themeToggle" style="margin-top: 15px;">
+  <button id="toggleThemeBtn">Tukar Tema</button>
+</div>
+<h2>Catat Senarai</h2>
+
+<form id="myForm">
+  <input style="padding:4px;font-size:13px;" type="text" name="task" placeholder="Tambah tugasan" required />
+  <button type="submit" style="padding:4px">Tambah</button>
+</form>
+
+<ol id="data"></ol>
+
+<div id="actions">
+  <button class="delete-all" id="deleteAllBtn">Padam Semua</button>
+  <button class="reset-checkbox" id="resetCheckboxBtn">Reset Selesai</button>
+</div>
+<footer>
+    <span>
+        Powered By <a href="t.me/d4n13lh4k1m">Daniel_Hakim</a>
+    </span>
+    <span>Uitm Permatang Pauh</span>
+</footer>
+<script>
+  const dataContainer = document.getElementById("data");
+  const form = document.getElementById("myForm");
+  const input = form.querySelector("input[name='task']");
+  const deleteAllBtn = document.getElementById("deleteAllBtn");
+  const resetCheckboxBtn = document.getElementById("resetCheckboxBtn");
+
+  const stored = JSON.parse(localStorage.getItem("task")) || {};
+  let taskData = {
+    task: stored.task || [],
+    done: stored.done || [],
+    time: stored.time || []
+  };
+
+  const timeElements = []; // simpan reference <small> masa
+
+  function saveToLocal() {
+    localStorage.setItem("task", JSON.stringify(taskData));
+  }
+
+  function timeAgo(timestamp) {
+    const now = Date.now();
+    const diff = Math.floor((now - timestamp) / 1000);
+    if (diff < 60) return `${diff} saat yang lalu`;
+    if (diff < 3600) return `${Math.floor(diff / 60)} minit yang lalu`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} jam yang lalu`;
+    return `${Math.floor(diff / 86400)} hari yang lalu`;
+  }
+
+  function createTaskItem(text, index) {
+    const item = document.createElement("li");
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = taskData.done[index] || false;
+    checkbox.addEventListener("change", () => {
+      taskData.done[index] = checkbox.checked;
+      saveToLocal();
+      displayAllTasks();
+    });
+
+    const span = document.createElement("span");
+    span.className = "task-content";
+
+    const label = document.createElement("div");
+    label.textContent = text;
+    if (checkbox.checked) label.classList.add("done");
+
+    const time = document.createElement("small");
+    time.dataset.index = index;
+    time.style.fontSize = "11px";
+    time.style.color = "gray";
+    time.style.marginLeft = "5px";
+    timeElements.push(time); // simpan untuk update automatik
+    updateSingleTime(index); // terus papar masa
+
+    span.appendChild(label);
+    span.appendChild(time);
+
+    const delButton = document.createElement("button");
+    delButton.textContent = "Padam";
+    delButton.className = "delete";
+    delButton.addEventListener("click", () => {
+      const confirmDelete = confirm(`Anda yakin untuk padam: "${text}"?`);
+      if (confirmDelete) {
+        taskData.task.splice(index, 1);
+        taskData.done.splice(index, 1);
+        taskData.time.splice(index, 1);
+        saveToLocal();
+        displayAllTasks();
+      }
+    });
+
+    item.appendChild(checkbox);
+    item.appendChild(span);
+    item.appendChild(delButton);
+    dataContainer.appendChild(item);
+  }
+
+  function updateSingleTime(index) {
+    if (timeElements[index]) {
+      timeElements[index].textContent = ` (${timeAgo(taskData.time[index])} ditambah)`;
+    }
+  }
+
+  function displayAllTasks() {
+    dataContainer.innerHTML = "";
+    timeElements.length = 0; // reset
+    taskData.task.forEach((task, index) => {
+      createTaskItem(task, index);
+    });
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const newTask = input.value.trim();
+    if (newTask === "") {
+      alert("Tugasan tidak boleh kosong!");
+      return;
+    }
+    const now = Date.now();
+    taskData.task.push(newTask);
+    taskData.done.push(false);
+    taskData.time.push(now);
+    saveToLocal();
+    displayAllTasks();
+    input.value = "";
+  });
+
+  deleteAllBtn.addEventListener("click", () => {
+    if (taskData.task.length === 0) {
+      alert("Tiada tugasan untuk dipadam.");
+      return;
+    }
+    const confirmAll = confirm("Anda yakin untuk padam SEMUA tugasan?");
+    if (confirmAll) {
+      taskData.task = [];
+      taskData.done = [];
+      taskData.time = [];
+      saveToLocal();
+      displayAllTasks();
+    }
+  });
+
+  resetCheckboxBtn.addEventListener("click", () => {
+    if (taskData.done.every(status => !status)) {
+      alert("Tiada tugasan yang ditanda selesai.");
+      return;
+    }
+    const confirmReset = confirm("Reset SEMUA tanda selesai?");
+    if (confirmReset) {
+      taskData.done = taskData.done.map(() => false);
+      saveToLocal();
+      displayAllTasks();
+    }
+  });
+
+  // ✅ Update masa setiap 1 saat
+  setInterval(() => {
+    taskData.time.forEach((_, i) => updateSingleTime(i));
+  }, 1000);
+
+  window.onload = displayAllTasks;
+  // 🔁 Fungsi tema
+function applyTheme(theme) {
+  document.body.className = theme;
+  localStorage.setItem("theme", theme);
+  const btn = document.getElementById("toggleThemeBtn");
+  btn.textContent = theme === "dark" ? "Tema Cerah" : "Tema Gelap";
+}
+
+// 🎛️ Toggle tema bila klik
+document.getElementById("toggleThemeBtn").addEventListener("click", () => {
+  const currentTheme = document.body.classList.contains("dark") ? "dark" : "light";
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
+  applyTheme(newTheme);
+});
+
+// 🚀 Apply tema semasa bila load
+const savedTheme = localStorage.getItem("theme") || "light";
+applyTheme(savedTheme);
+</script>
+</body>
+</html>
