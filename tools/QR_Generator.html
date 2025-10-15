@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ms-MY">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RPI QR Generator</title>
+  <title>RPI QR Generator V3</title>
   <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,18 +29,19 @@
     }
 
     .panel {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-      padding: 15px 25px;
-      max-width: 350px;
-      text-align: center;
-      position: fixed;
-      top: 20px;
-      bottom: 20px; /* ⬅ tambah ini */
-      overflow-y: auto; /* ⬅ aktifkan scroll dalam panel */
-      transition: 0.3s ease-in-out;
-    }
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  padding: 15px 25px;
+  max-width: 350px;
+  text-align: center;
+  position: fixed;
+  top: 20px;
+  bottom: 20px; /* ⬅ tambah ini */
+  overflow-y: auto; /* ⬅ aktifkan scroll dalam panel */
+  transition: 0.3s ease-in-out;
+}
+
 
     .panel.collapsed {
       transform: translateY(-90%);
@@ -104,8 +106,9 @@
         text-align: center;
         margin: 12px;
         font-family: "Bebas Neue", Sans-Serif, arial;
+        letter-spacing: 3px;
     }
-    .rpi{
+/*    .rpi{
         position: fixed;
         top:32px;
         width: 100%;
@@ -115,18 +118,17 @@
         font-weight: 900;
         font-size: 22px;
         text-transform: uppercase;
-    }
+    }*/
   </style>
 </head>
 <body id="page">
-<span class="rpi">Rakan Pusat Islam</span>
+<!-- <span class="rpi">Rakan Pusat Islam</span> -->
   <button id="toggleBtn">✕</button>
-
   <div class="panel" id="panel">
       <img src="https://i.ibb.co/2Ykgr4DY/logo-rpi.jpg" alt="Logo RPI" width="100px" loading="lazy">
     <h3 style="font-weight:600">RPI 2026<br>
     UiTM PERMATANG PAUH<br><br><span style="font-weight:900">QR CODE MENU</span></h3>
-    <input type="text" id="url" placeholder="Masukkan URL..." /><br>
+    <input type="text" id="url" placeholder="https://..." /><br>
     <label>Tajuk:</label>
     <input type="text" id="tajuk" placeholder="Masukkan Tajuk QR..." /><br>
     <label>Warna Tajuk:</label>
@@ -140,15 +142,16 @@
       <option value="rounded">Rounded</option>
     </select><br>
     <label>Background:</label><br>
-    <input type="color" id="bgColor" value="#ffffff">
-    <input type="file" id="bgImage" accept="image/*"><br>
+    <input type="color" id="bgColor" value="#ffffff">Atau
+    <input type="file" id="bgImage" accept="image/*">Atau<br><input type="text" id="bgUrl" placeholder="Masukkan URL gambar..." /><br>
     <button id="generate">Generate</button>
+    <button onclick="reset()">Reset</button>
   </div>
   <h1 id="title"></h1>
   <div id="qr"></div>
-
+<span style="position: absolute;bottom: 20px;left:0;width:100%;text-align: center;opacity:0.3;">Powered By @hakimcodez</span>
   <script>
-    window.alert("DISCLAIMER : QR Code Generator ini dibangun khusus untuk kegunaan Kelab Rakan Pusat Islam, anda juga boleh menggunakan tool ini selagi atas tujuan yang baik.")
+    // window.alert("DISCLAIMER : QR Code Generator ini dibangun khusus untuk kegunaan Kelab Rakan Pusat Islam, anda juga boleh menggunakan tool ini selagi atas tujuan yang baik.")
     let qrCode = new QRCodeStyling({
       width: 250,
       height: 250,
@@ -160,6 +163,15 @@
     const qrDiv = document.getElementById("qr");
     qrCode.append(qrDiv);
 
+    function reset(){
+      document.getElementById("bgColor").value = "#ffffff"
+      document.getElementById("bgUrl").value = ""
+      document.getElementById("title").innerText = ""
+      document.getElementById("tajuk").value = ""
+      document.getElementById("style").value = ""
+      document.getElementById("bgImage").value = ""
+    }
+
     document.getElementById("generate").addEventListener("click", () => {
       const url = document.getElementById("url").value.trim();
       const title = document.getElementById("title")
@@ -168,11 +180,14 @@
       const tajukColor = document.getElementById("tajukColor").value;
       const style = document.getElementById("style").value;
       const bgColor = document.getElementById("bgColor").value;
+      const bgUrl = document.getElementById("bgUrl").value;
       const bgFile = document.getElementById("bgImage").files[0];
+
+
       title.textContent = tajuk
       title.style.color = tajukColor
       if (!url) {
-        alert("⚠️ Masukkan URL dahulu!");
+        alert("Masukkan URL!");
         return;
       }
 
@@ -190,6 +205,9 @@
           document.body.style.backgroundColor = "";
         };
         reader.readAsDataURL(bgFile);
+      } else if(bgUrl){
+        document.body.style.backgroundImage = `url(${bgUrl})`;
+          document.body.style.backgroundColor = "";
       } else {
         document.body.style.backgroundImage = "none";
         document.body.style.backgroundColor = bgColor;
