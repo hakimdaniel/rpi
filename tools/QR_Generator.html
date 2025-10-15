@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RPI QR Generator V3</title>
+  <title>RPI QR Generator V4</title>
   <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,6 +108,9 @@
         font-family: "Bebas Neue", Sans-Serif, arial;
         letter-spacing: 3px;
     }
+    .hide{
+      opacity: 0;
+    }
 /*    .rpi{
         position: fixed;
         top:32px;
@@ -149,9 +152,9 @@
   </div>
   <h1 id="title"></h1>
   <div id="qr"></div>
-<span style="position: absolute;bottom: 20px;left:0;width:100%;text-align: center;opacity:0.3;">Powered By @hakimcodez</span>
+<span style="position: absolute;bottom: 20px;left:0;width:100%;text-align: center;opacity:0.1;">Coded By @hakimcodez</span>
   <script>
-    // window.alert("DISCLAIMER : QR Code Generator ini dibangun khusus untuk kegunaan Kelab Rakan Pusat Islam, anda juga boleh menggunakan tool ini selagi atas tujuan yang baik.")
+    window.alert("DISCLAIMER : QR Code Generator ini dibangun khusus untuk kegunaan Kelab Rakan Pusat Islam, anda juga boleh menggunakan tool ini selagi digunakan atas tujuan yang baik.")
     let qrCode = new QRCodeStyling({
       width: 250,
       height: 250,
@@ -168,8 +171,8 @@
       document.getElementById("bgUrl").value = ""
       document.getElementById("title").innerText = ""
       document.getElementById("tajuk").value = ""
-      document.getElementById("style").value = ""
       document.getElementById("bgImage").value = ""
+      document.getElementById("url").value = ""
     }
 
     document.getElementById("generate").addEventListener("click", () => {
@@ -228,6 +231,7 @@
 
     toggleBtn.addEventListener("click", () => {
       panel.classList.toggle("collapsed");
+      toggleBtn.classList.toggle("hide")
       toggleBtn.textContent = panel.classList.contains("collapsed") ? "☰" : "✕";
     });
   </script>
