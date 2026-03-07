@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: arial;
+        }
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        #sidebar {
+            padding-top: 40px;
+            position: absolute;
+            width: 100%;
+            background-color: gray;
+            height: 100%;
+            left: -100%;
+            transition: .5s ease-in-out;
+            z-index:999;
+        }
+        #sidebar.expand {
+            left: 0;
+        }
+        .link a {
+            display: block;
+            text-decoration: none;
+            font-size: 20px;
+            padding: 7px;
+            padding-left: 10px;
+            color: black;
+        }
+        #open {
+            position: absolute;
+            top: 7px;
+            right: -80px;
+            font-size: 20px;
+            transition: .3s;
+        }
+        #open.btn-next {
+            right: 10px;
+        }
+        .link .active {
+            background-color: #575757;
+            color: white;
+        }
+        .container {
+            padding: 10px;
+            padding-top: 30px;
+        }
+        .logout{
+            background-color: tomato;
+            color:white;
+            text-align: center;
+            margin-top: 60px;
+            font-weight: bold;
+            height: 80px;
+            line-height: 60px;
+            position: absolute;
+            bottom:0;
+            left:0;
+            right: 0;
+        }
+        .box {
+            width: 120px;
+            height: 120px;
+            border: gray 1px solid;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <button id="open">
+            Menu
+        </button>
+        <div class="link">
+            <a href="#" class="active">Dashboard</a>
+            <a href="manage-case.html">Urus Kes</a>
+            <a href="#">Aduan</a>
+            <a href="#" class="logout">Log out</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 style="text-align:center">Dashboard</h1>
+        <h3 style="text-align:center">Jumlah Kes</h3>
+        <div class="box" style="margin:auto">
+            <div>
+                <span>100<br>kes</span>
+            </div>
+        </div>
+        <br><br>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+    <script src="assets/js/jquery-4.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+        $("#open").on('click', function() {
+            $("#sidebar").toggleClass("expand")
+            $("#open").toggleClass("btn-next")
+        })
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        $(".logout").on("click",()=>{
+            window.location.href = "index.html"
+        })
+        const ctx = document.getElementById('myChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Week 1','Week 2','Week 3','Week 4','Week 5'],
+                datasets: [{
+                    label: 'Jumlah kes',
+                    data: [4,5,10,2,1],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

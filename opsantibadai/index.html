@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OpsAntiBadai</title>
+    <style>
+        * {
+            /*box-sizing: border-box;*/
+            font-family: arial;
+        }
+        body{
+            padding: 0;
+            margin: 0;
+            background-image: url(assets/images/blue-futuristic.jpg);
+            background-position: center;
+            background-size: cover;
+            
+        }
+        @font-face{
+            font-family:arabic;
+            src:url(assets/fonts/ArabicRamadan.ttf)
+        }
+        h1.title{
+            margin-top: 100px;
+            font-family: arabic;
+            text-align: center;
+            font-size: 80px;
+            line-height: 70px;
+            color: black;
+            text-shadow: 0 0 15px #3D83D6;
+        }
+        .container{
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .first, .second{
+            display: flex;
+            justify-content: center;
+        }
+        .first input, .second input{
+            font-family:arial;
+            font-size:20px;
+            padding:7px;
+            border-radius: 45px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #5461D5;
+            outline:0;
+            border:none;
+            color:white;
+            transition: .2s background-color ease;
+        }
+        .first input:focus, .second input:focus{
+            outline:gold 3px solid;
+            background-color: #f2f2f2;
+            color:black;
+        }
+        input::placeholder{
+            color:#434343;
+        }
+        .third{
+            display: flex;
+            justify-content: center;
+            gap:10px;
+        }
+        .third button{
+            padding:10px 20px;
+            font-size:20px;
+            border-radius:5px;
+            border:none;
+        }
+        a{
+            font-family: arial;
+            text-decoration: none;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color:green;
+        }
+        a:visited{
+            color:none;
+        }
+        footer{
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            bottom:35px;
+            right:0;
+            left:0;
+        }
+        footer span{
+            background-color: #FDFF6B;
+            padding:5px 12px;
+            border-radius: 45px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">OpsAnti<br>Badai</h1>
+        
+        <div class="first">
+            <input type="text" placeholder="Username" id="username" title="Your username." maxlength="10" autocomplete="true" required>
+        </div>
+        <div class="second">
+            <input type="password" placeholder="Password" id="password" title="Your password." maxlength="10" autocomplete="true" required>
+        </div>
+        <div class="third">
+            <button id="reset-btn">Reset</button>
+            <button id="login-btn" type="submit" style="background-color:#00A93D;box-shadow:inset #56FF93 0 0 7px;color:whitesmoke;font-weight:bold">Login</button>
+        </div>
+    
+    </div>
+    <footer>
+        <span>Powered By <a href="#">Rakan Pusat Islam</a></span>
+    </footer>
+    <script src="assets/js/jquery-4.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        $('#reset-btn').on('click',function(){
+            $('#username').val('')
+            $('#password').val('')
+        })
+        
+        $('#login-btn').on('click',function(){
+            let username = $('#username').val()
+            let password = $('#password').val()
+            
+            if(username === "rpi2026" && password === "24434"){
+                alert("Berjaya log masuk")
+                window.location.href ="dashboard.html"
+            }else{
+                alert("Username atau kata laluan salah")
+            }
+        }
+                
+        )
+    </script>
+</body>
+</html>

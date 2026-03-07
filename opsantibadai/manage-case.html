@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: arial;
+        }
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        #sidebar {
+            padding-top: 40px;
+            position: absolute;
+            width: 100%;
+            background-color: gray;
+            height: 100%;
+            left: -100%;
+            transition: .5s ease-in-out;
+            z-index:999;
+        }
+        #sidebar.expand {
+            left: 0;
+        }
+        .link a {
+            display: block;
+            text-decoration: none;
+            font-size: 20px;
+            padding: 7px;
+            padding-left: 10px;
+            color: black;
+        }
+        #open {
+            position: absolute;
+            top: 7px;
+            right: -80px;
+            font-size: 20px;
+            transition: .3s;
+        }
+        #open.btn-next {
+            right: 10px;
+        }
+        .link .active {
+            background-color: #575757;
+            color: white;
+        }
+        .logout{
+            background-color: tomato;
+            color:white;
+            text-align: center;
+            margin-top: 60px;
+            font-weight: bold;
+            height: 80px;
+            line-height: 60px;
+            position: absolute;
+            bottom:0;
+            left:0;
+            right: 0;
+        }
+        .container {
+            padding: 10px;
+            padding-top: 30px;
+        }
+        .table {
+            display: flex;
+            justify-content: center;
+            max-width: 900px;
+            flex-direction: column;
+            margin: auto;
+            overflow-x: scroll;
+            height: auto;
+        }
+        .table table{
+            width:100%;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+            border-collapse: collapse;
+        }
+        .table th, .table td{
+            border:2px solid gray;
+            padding:5px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: end;
+            margin-bottom: 20px;
+        }
+        .btn {
+            margin: 0 7px;
+            font-size: 20px;
+            padding: 2px 8px;
+        }
+        .popup-box {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            display: none;
+            backdrop-filter: blur(4px);
+        }
+        .popup-box.open{
+            display: flex;
+        }
+        .box {
+            padding: 12px;
+            background-color: white;
+            width: 360px;
+            height: 470px;
+            border-radius: 5px;
+            position: relative;
+        }
+        .close-btn {
+            color: black;
+            border:none;
+            background-color: transparent;
+            font-size:25px;
+            font-weight: bold;
+            position: absolute;
+            right: -7px;
+            padding: 3px 14px;
+            top: 0;
+        }
+        
+        .save-btn{
+            position: absolute;
+            bottom: 12px;
+            right: 7px;
+            border-radius: 5px;
+            border:1px solid black;
+        }
+        td input, select{
+            width: 100%;
+            font-size:20px;
+        }
+        td textarea{
+            width:100%;
+            font-size:20px;
+            resize: vertical;
+        }
+        #box1,#box2{
+            display: none;
+        }
+        .download-sheet{
+            position:absolute;
+            left:12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <button id="open">
+            Menu
+        </button>
+        <div class="link">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="#" class="active">Urus Kes</a>
+            <a href="#">Aduan</a>
+            <a href="#" class="logout">Log out</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 style="text-align:center">Urus Kes</h1>
+        <div class="buttons">
+            <a href="#" class="btn download-sheet">Download Excel Sheet</a>
+                <button class="btn" id="add-btn">Tambah</button>
+            </div>
+        <div class="table">
+            
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Bil</th>
+                        <th>Catatan</th>
+                        <th>Nama</th>
+                        <th>Nombor Pelajar</th>
+                        <th>Fakulti</th>
+                        <th>Lokasi</th>
+                        <th>Masa</th>
+                        <th>Jenis Kesalahan</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Masih disiasat</td>
+                        <td>Adam Daniel</td>
+                        <td>2023822667</td>
+                        <td>FKE</td>
+                        <td>Hadapan Pusat Islam</td>
+                        <td>8:20 PM</td>
+                        <td>Berduaan</td>
+                        <td><a href="#" class="edit-btn" data-id="1">Ubah Catatan</a></td>
+
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Selesai</td>
+                        <td>Daniel Hazim</td>
+                        <td>2024928298</td>
+                        <td>FPHP</td>
+                        <td>Bilik 18 Jam</td>
+                        <td>8:45 PM</td>
+                        <td>Berduaan</td>
+                        <td><a href="#" class="edit-btn" data-id="2">Ubah Catatan</a></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Belum diambil tindakan</td>
+                        <td>Adam Daniel</td>
+                        <td>2023822667</td>
+                        <td>FKE</td>
+                        <td>Hadapan Pusat Islam</td>
+                        <td>8:20 PM</td>
+                        <td>Berduaan</td>
+                        <td><a href="#" class="edit-btn" data-id="3">Ubah Catatan</a></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="popup-box">
+            <div class="box" id="box1">
+                <button class="btn close-btn">×</button>
+                <button class="btn save-btn">Simpan</button>
+                <h2>Tambah Kes</h2>
+                <table border="0">
+                    <tr>
+                        <td><span>Nama: </span></td>
+                        <td><input type="text"></td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Id: </span></td>
+                        <td><input type="number" step="1"></td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Fakulti: </span></td>
+                        <td>
+                            <select style="width:100%">
+                                <option selected disabled hidden>Pilih fakulti</option>
+                                <option value="FKE">Fakulti Kejuruteraan Elektrik (FKE)</option>
+                                <option value="FPHP">Fakulti Pengurusan Hotel dan Pelancongan (FPHP)</option>
+                                <option value="FKM">Fakulti Kejuruteraan Mekanikal (FKM)</option>
+                                <option value="FKA">Fakulti Kejuruteraan Awam (FKA)</option>
+                                <option value="FKK">Fakulti Kejuruteraan Kimia (FKK)</option> 
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Lokasi: </span></td>
+                        <td><input type="text"></td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Masa: </span></td>
+                        <td><input type="time"></td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Jenis Kesalahan: </span></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><span>Catatan: </span></td>
+                        <td><textarea cols="30" rows="5"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="box" id="box2">
+                <button class="btn close-btn">×</button>
+                <button class="btn save-btn">Update</button>
+                <h2>Kemaskini Catatan</h2>
+                <table border="0">
+                    <tr>
+                        <td><span>Nama: </span></td>
+                        <td><input type="text" value="Daniel Hazim" disabled></td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Id: </span></td>
+                        <td><input type="number" step="1" value="2023394938" disabled></td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Fakulti: </span></td>
+                        <td>
+                            <select style="width:100%" disabled>
+                                <option selected disabled hidden>Pilih fakulti</option>
+                                <option value="FKE" selected>Fakulti Kejuruteraan Elektrik (FKE)</option>
+                                <option value="FPHP">Fakulti Pengurusan Hotel dan Pelancongan (FPHP)</option>
+                                <option value="FKM">Fakulti Kejuruteraan Mekanikal (FKM)</option>
+                                <option value="FKA">Fakulti Kejuruteraan Awam (FKA)</option>
+                                <option value="FKK">Fakulti Kejuruteraan Kimia (FKK)</option> 
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Lokasi: </span></td>
+                        <td><input type="text" value="Pusat Islam" disabled></td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Masa: </span></td>
+                        <td><input type="time" value="20:30" disabled></td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Jenis Kesalahan: </span></td>
+                        <td><input type="text" value="Berduaan" disabled></td>
+                    </tr>
+                    <tr>
+                        <td><span>Catatan: </span></td>
+                        <td><textarea cols="30" rows="5" >Dalam siasatan</textarea></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+    <script src="assets/js/jquery-4.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+        $(".logout").on("click",()=>{
+            window.location.href = "index.html"
+        })
+        
+        $("#open").on('click', function() {
+            $("#sidebar").toggleClass("expand")
+            $("#open").toggleClass("btn-next")
+        })
+        
+        $("#add-btn").on('click',()=>{
+            $('.popup-box').toggleClass('open')
+            $('#box1').slideDown()
+        })
+        
+        $('.close-btn').on('click',()=>{
+            $('.popup-box').toggleClass('open')
+            $('#box1').hide()
+            $("#box2").hide()
+        })
+        
+        $('.edit-btn').on('click',function(e){
+            e.preventDefault()
+            $('.popup-box').toggleClass('open')
+            $("#box2").slideDown()
+        })
+    </script>
+
+</body>
+</html>
